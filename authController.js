@@ -1,11 +1,16 @@
 const User = require('./models/User')
 const Role = require('./models/Role')
 const bcrypt = require('bcrypt')
+const { validationResult } = require('express-validator')
 class authController {
 
     async registration(req, res) {
         try {
-            const {username, password} = req.body
+            const errors = validationResult(req)
+            if(!errors.isEmpty()){
+                return res.status(400).json({message : "Ошибка при регистрации", errors})
+            }
+             const {username, password} = req.body
             const candidate = await User.findOne({username})
             if (candidate) {
                 return res.status(400).json({message : 'Пользователь с таким именем уже существует'})
