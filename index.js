@@ -13,7 +13,7 @@ function start(){
 
     try {
         app.listen(PORT, () => console.log(`server started in port ${PORT}`))
-        mongoose.connect('mongodb+srv://admin:admin@cluster0.9xnxg6k.mongodb.net/?retryWrites=true&w=majority')
+        mongoose.connect('mongodb+srv://admin:admin@cluster0.qxuj7fp.mongodb.net/?retryWrites=true&w=majority')
     } catch (error) {
         console.log(error)
     }

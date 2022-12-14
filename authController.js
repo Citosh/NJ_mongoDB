@@ -16,6 +16,7 @@ const generateAccessToken = (id, roles) => {
 class authController {
 
     async registration(req, res) {
+        
         try {
             const errors = validationResult(req)
             if(!errors.isEmpty()){
@@ -27,7 +28,7 @@ class authController {
                 return res.status(400).json({message : 'Пользователь с таким именем уже существует'})
             }
             const hashPassword = bcrypt.hashSync(password, 7)
-            const userRole = await Role.findOne({value : "USER"})
+            const userRole = await Role.findOne({value : "ADMIN"})
             const user = new User({username, password : hashPassword, roles : [userRole.value]})
             await user.save()
             return res.json({message : "Пользователь успешно создан"})
