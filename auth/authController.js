@@ -1,9 +1,9 @@
-const User = require('./models/User')
-const Role = require('./models/Role')
+const User = require('../models/User')
+const Role = require('../models/Role')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const { validationResult } = require('express-validator')
-const {secret} = require('./config') 
+const {secret} = require('../config') 
 
 const generateAccessToken = (id, roles) => {
     const payload = {
@@ -28,7 +28,7 @@ class authController {
                 return res.status(400).json({message : 'Пользователь с таким именем уже существует'})
             }
             const hashPassword = bcrypt.hashSync(password, 7)
-            const userRole = await Role.findOne({value : "ADMIN"})
+            const userRole = await Role.findOne({value : "SUPERADMIN"})
             const user = new User({username, password : hashPassword, roles : [userRole.value]})
             await user.save()
             return res.json({message : "Пользователь успешно создан"})
