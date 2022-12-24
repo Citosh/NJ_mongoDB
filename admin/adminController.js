@@ -1,5 +1,6 @@
 const User = require('../models/User')
 const Role = require('../models/Role')
+const Banned = require('../models/Banned')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const config = require('../config')
@@ -49,11 +50,67 @@ class adminController {
     }
 
     
-    async banUser(req,res) {
-    
+    async banUser(req,res){
+        try {
+            const username = req.body.username
+            
+            const currenUser = await User.findOne({username : username})
+            if(!currenUser){
+             return  res.status(400).json(`user ${username} doesn't exists`)
+            }
+
+            if(currenUser.banned){
+               
+               return res.status(200).json(`user ${username} already banned`)
+            }
+            await User.findOneAndUpdate(
+                {username : username},
+                {banned : true}
+            )
+            await Banned.create({
+                username : username,
+                banat : Date.now(),
+            })
+            return res.status(200).json(`user ${username} banned`)
+
+        } catch (error) {
+            console.log(error)
+        }
+        
+    }
+    async unBanUser(req,res){
+        try {
+            const username = req.body.username
+            
+            const currenUser = await User.findOne({username : username})
+            if(!currenUser){
+             return  res.status(400).json(`user ${username} doesn't exists`)
+            }
+
+            if(!currenUser.banned){
+               
+               return res.status(200).json(`user ${username} already unbanned`)
+            }
+            await User.findOneAndUpdate(
+                {username : username},
+                {banned : false}
+            )
+            await Banned.create({
+                username : username,
+                unbanat : Date.now()
+            }
+            )
+            return res.status(200).json(`user ${username} unbanned`)
+
+          
+        } catch (error) {
+            console.log(error)
+        }
     }
 
+    
 }
+
 
 
 module.exports = new adminController()
