@@ -1,9 +1,7 @@
 const User = require('../models/User')
 const Role = require('../models/Role')
 const Banned = require('../models/Banned')
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
-const config = require('../config')
+
 
 class adminController {
 
@@ -48,8 +46,6 @@ class adminController {
             console.log(error)
         }
     }
-
-    
     async banUser(req,res){
         try {
             const username = req.body.username
@@ -107,7 +103,29 @@ class adminController {
             console.log(error)
         }
     }
+    async getUsers(req,res){
+        try {
+            const users = await User.find()
+           return res.status(200).json(users)
+        } catch (error) {
+            console.log(error)
+        }
+    }    
+    async getUserByName(req,res){
+        try {
 
+            const name = req.params.username
+            const currenUser = await User.findOne({username : name})
+            if(!currenUser){
+             return  res.status(400).json(`user ${name} doesn't exists`)
+            }
+            return res.status(200).json(currenUser)
+
+        } catch (error) {
+            console.log(error)
+        }
+        
+    }
     
 }
 
