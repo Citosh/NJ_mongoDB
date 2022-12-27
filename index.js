@@ -3,10 +3,7 @@ const mongoose = require('mongoose')
 const authRouter = require('./auth/authRouter')
 const adminRouter = require('./admin/adminRouter')
 const managerRouter = require("./manager/managerRouter")
-
-const adminController = require('./admin/adminController')
-const authController = require('./auth/authController')
-const managerController = require('./manager/managerController')
+const userRouter = require('./user/userRouter')
 
 const PORT = process.env.PORT || 5000
 
@@ -16,6 +13,7 @@ app.use(express.json())
 app.use("/auth",authRouter)
 app.use("/admin",adminRouter)
 app.use("/manager",managerRouter)
+app.use("/user",userRouter)
 
 
 function start(){

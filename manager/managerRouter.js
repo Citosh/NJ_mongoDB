@@ -15,6 +15,9 @@ router.post('/setquantity', roleMiddleware(["MANAGER"]), controller.setQuantity)
 router.post('/setcost', roleMiddleware(["MANAGER"]), controller.setCost)
 router.post('/setname', roleMiddleware(["MANAGER"]), controller.setName)
 router.post('/deletproduct', roleMiddleware(["MANAGER"]), controller.deleteProduct)
+router.get('/getshoppinghistory', roleMiddleware(["MANAGER"]), controller.getAllPurchaseHistory)
+router.get('/getshoppinghistorybyname', roleMiddleware(["MANAGER"]), controller.getPurchaseHistorybyname)
+
 
 
 

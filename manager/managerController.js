@@ -1,5 +1,6 @@
 const User = require('../models/User')
 const Good = require('../models/Goods')
+const ShoppingHistory = require('../models/ShoppingHistory')
 const { validationResult } = require('express-validator')
 
 
@@ -106,10 +107,28 @@ class managerController {
     }
 
     async getAllPurchaseHistory(req,res){
-
+        try {
+            const history = await ShoppingHistory.find()
+            res.json(history)
+        } catch (error) {
+            
+        }
     }
+
     async getPurchaseHistorybyname(req,res){
-        
+        try {
+            const {username} = req.body
+
+            const currenUser = await User.findOne({username : username})
+            if(!currenUser){
+             return  res.status(400).json(`user ${username} doesn't exists`)
+            }
+            
+            const history = await ShoppingHistory.findOne({username : username})
+            res.json(history)
+        } catch (error) {
+            
+        } 
     }
 }
 
