@@ -3,7 +3,7 @@ Content discussed :
 JWT authentification,
 Express routing,
 MongoDB + mongoose,
-SOLID design
+SOLID design.
 
 
 Get the Code
